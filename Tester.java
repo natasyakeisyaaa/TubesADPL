@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Tester {
 
     public static void main(String[] args) {
-        Perpustakaan perpus = Perpustakaan.getInstance();
+        PerpustakaanFacade perpus = new PerpustakaanFacade();
 
         Scanner sc = new Scanner(System.in);
 
@@ -40,6 +40,18 @@ public class Tester {
             System.out.println("Apa yang anda ingin lakukan di Perpustakaan? (ketik 1 / 2)");
             System.out.println("1. Meminjam Buku");
             System.out.println("2. Mengembalikkan Buku");
+
+            int kegiatan = sc.nextInt();
+
+            if (kegiatan == 1) {
+                System.out.print("Ketik judul buku yang ingin dipinjam :");
+                String judul = sc.next();
+
+            } else if (kegiatan == 2) {
+                System.out.println("Ketik judul buku ");
+            }
         }
     }
+
+    public static Buku cari
 }

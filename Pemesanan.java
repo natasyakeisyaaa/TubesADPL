@@ -11,7 +11,7 @@ public class Pemesanan extends PesanBuku {
 
     public void tambahBukuSiap(Buku bukuDipesan) {
         this.daftarBukuSiap.add(bukuDipesan);
-        this.beritahuPemesan();
+        this.beritahuPemesan(bukuDipesan);
     }
 
     public LinkedList<Buku> getBuku() {
