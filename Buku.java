@@ -4,11 +4,11 @@ public abstract class Buku {
     private String id;
     private String judul; // atribut untuk menyimpan judul buku
     private String pengarang;
-    private String tahunTerbit;
+    private int tahunTerbit;
     private String genre;
     private BookState state; // atribut untuk menyimpan state/status saat ini
 
-    public Buku(String id, String judul, String pengarang, String tahunTerbit, String genre) {
+    public Buku(String id, String judul, String pengarang, int tahunTerbit, String genre) {
         this.id = id;
         this.judul = judul;
         this.pengarang = pengarang;
@@ -41,11 +41,11 @@ public abstract class Buku {
         this.pengarang = pengarang;
     }
 
-    public String getTahun() {
+    public int getTahun() {
         return tahunTerbit;
     }
 
-    public void setTahun(String tahunTerbit) {
+    public void setTahun(int tahunTerbit) {
         this.tahunTerbit = tahunTerbit;
     }
 
@@ -64,4 +64,6 @@ public abstract class Buku {
     public void setState(BookState state) {
         this.state = state;
     }
+
+    public abstract void tampilInfo();
 }

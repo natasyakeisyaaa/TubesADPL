@@ -1,7 +1,7 @@
 
 import java.util.LinkedList;
 
-public class Pemesanan extends PesanBuku {
+public class Pemesanan extends BukuDipesan {
 
     public LinkedList<Buku> daftarBukuSiap;
 

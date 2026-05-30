@@ -8,7 +8,6 @@ public class AvailableState implements BookState {
         // kalau buku tersedia lalu dipinjam,
         // maka status buku berubah menjadi BorrowedState atau Dipinjam
         buku.setState(new BorrowedState());
-        System.out.println("Buku berhasil dipinjam.");
 
         // return true artinya proses peminjaman berhasil
         return true;
@@ -18,8 +17,6 @@ public class AvailableState implements BookState {
     public boolean kembalikan(Buku buku) {
         // kalau buku sudah tersedia, artinya buku tidak sedang dipinjam
         // jadi tidak bisa diproses sebagai pengembalian
-        System.out.println("Buku tidak sedang dipinjam, sehingga tidak dapat dikembalikan.");
-        
         // return false artinya proses pengembalian gagal/tidak valid
         return false;
     }

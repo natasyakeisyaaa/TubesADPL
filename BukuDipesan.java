@@ -22,16 +22,15 @@ public abstract class BukuDipesan {
         }
     }
 
-    public void batalPesan(Anggota pemesan) {
-        if (!daftarPesanan.containsKey(pesanan)) {
-            return;
-        } else {
-            LinkedList<Anggota> daftarPemesanBuku = daftarPesanan.get(pesanan);
-            daftarPemesanBuku.remove(pemesan);
-            daftarPesanan.put(pesanan, daftarPemesanBuku);
-        }
-    }
-
+    // public void batalPesan(Anggota pemesan) {
+    //     if (!daftarPesanan.containsKey(pesanan)) {
+    //         return;
+    //     } else {
+    //         LinkedList<Anggota> daftarPemesanBuku = daftarPesanan.get(pesanan);
+    //         daftarPemesanBuku.remove(pemesan);
+    //         daftarPesanan.put(pesanan, daftarPemesanBuku);
+    //     }
+    // }
     public void beritahuPemesan(Buku bukuSiap) {
         LinkedList<Anggota> anggotaPemesan = daftarPesanan.get(bukuSiap);
         for (Anggota pemesan : anggotaPemesan) {

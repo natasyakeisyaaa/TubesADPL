@@ -26,6 +26,9 @@ public class Perpustakaan {
     private final SearchByPengarang cariPengarang;
     private final SearchByTahun cariTahun;
 
+    //Observer
+    private final Pemesanan pesanan;
+
     private Perpustakaan() {
         this.layananBuku = new LayananBuku();
         this.layananAnggota = new LayananAnggota();
@@ -37,6 +40,7 @@ public class Perpustakaan {
         this.cariJudul = new SearchByJudul();
         this.cariPengarang = new SearchByPengarang();
         this.cariTahun = new SearchByTahun();
+        this.pesanan = new Pemesanan();
     }
 
     public static Perpustakaan getInstance() {
@@ -58,12 +62,12 @@ public class Perpustakaan {
     }
 
     //Menambah buku nonfiksi
-    public void tambahBukuNonFiksi(String id, String judul, String pengarang, int tahun, String topik, int edisi) {
+    public void tambahBukuNonFiksi(String id, String judul, String pengarang, int tahun, String topik) {
         if (layananBuku.isIdTerdaftar(id)) {
             System.out.println("[Facade] ID buku sudah terdaftar: " + id);
             return;
         }
-        Buku buku = nonFiksiFactory.buatDanDaftarkan(id, judul, pengarang, tahun, topik, String.valueOf(edisi));
+        Buku buku = nonFiksiFactory.buatDanDaftarkan(id, judul, pengarang, tahun, topik);
         layananBuku.tambahBuku(buku);
     }
 
@@ -118,36 +122,51 @@ public class Perpustakaan {
     }
 
     //PEMINJAMAN & PENGEMBALIAN
-    public void pinjamBuku(String idAnggota, String idBuku) {
+    public Buku pinjamBuku(String idAnggota, String idBuku) {
         Anggota anggota = layananAnggota.getAnggota(idAnggota);
         Buku buku = layananBuku.getBuku(idBuku);
 
         if (anggota == null) {
             System.out.println("[Facade] Anggota tidak ditemukan.");
-            return;
+            return null;
         }
         if (buku == null) {
             System.out.println("[Facade] Buku tidak ditemukan.");
-            return;
+            return null;
+        }
+        
+        if(buku.getState().pinjam(buku)) {
+            layananPeminjaman.pinjam(idAnggota, buku);
+            return buku;
         }
 
-        layananPeminjaman.pinjam(idAnggota, buku);
+        return null;
     }
 
-    public void kembalikanBuku(String idAnggota, String idBuku) {
+    public void pesanBuku(Buku buku, Anggota pemesan) {
+        pesanan.pesanBuku(buku, pemesan);
+    }
+
+    public Buku kembalikanBuku(String idAnggota, String idBuku) {
         Anggota anggota = layananAnggota.getAnggota(idAnggota);
         Buku buku = layananBuku.getBuku(idBuku);
 
         if (anggota == null) {
             System.out.println("[Facade] Anggota tidak ditemukan.");
-            return;
+            return null;
         }
         if (buku == null) {
             System.out.println("[Facade] Buku tidak ditemukan.");
-            return;
+            return  null;
         }
 
-        layananPeminjaman.kembalikan(idAnggota, buku);
+        if(buku.getState().kembalikan(buku)) {
+            layananPeminjaman.kembalikan(idAnggota, buku);
+            pesanan.beritahuPemesan(buku);
+            return buku;
+        }
+
+        return null;
     }
 
     public void tampilkanRiwayat(String idAnggota) {
@@ -199,10 +218,11 @@ public class Perpustakaan {
         tampilkanHasilCari("Genre '" + genre + "'", hasil);
     }
 
-    // public void cariBukuByTipe(String tipe) {
-    //     List<Buku> hasil = layananPencarian.cariByTipe(layananBuku.getSemuaBuku(), tipe);
-    //     tampilkanHasilCari("Tipe '" + tipe + "'", hasil);
-    // }
+    public void cariBukuByTahun(String tahun) {
+        List<Buku> hasil = layananPencarian.cariByTahun(layananBuku.getSemuaBuku(), tahun);
+        tampilkanHasilCari("Tahun '" + tahun + "'", hasil);
+    }
+
     private void tampilkanHasilCari(String label, List<Buku> hasil) {
         System.out.println("=== Hasil Pencarian: " + label + " ===");
         if (hasil.isEmpty()) {

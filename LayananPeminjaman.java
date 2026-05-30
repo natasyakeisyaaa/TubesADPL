@@ -14,7 +14,7 @@ public class LayananPeminjaman {
     }
 
     public boolean pinjam(String idAnggota, Buku buku) {
-        if (!buku.isAvailable()) {
+        if (!buku.getState().pinjam(buku)) {
             System.out.println("[Peminjaman] Buku '" + buku.getJudul() + "' sedang dipinjam.");
             return false;
         }
@@ -24,7 +24,7 @@ public class LayananPeminjaman {
         Peminjaman peminjaman = new Peminjaman(idTrx, idAnggota, buku.getId());
 
         daftarPeminjaman.add(peminjaman);
-        buku.setAvailable(false);
+        buku.setState(new BorrowedState());
 
         System.out.println("[Peminjaman] Berhasil! ID Transaksi: " + idTrx);
         return true;
@@ -41,7 +41,7 @@ public class LayananPeminjaman {
         int denda = aktif.hitungDenda();
 
         aktif.kembalikan();
-        buku.setAvailable(true);
+        buku.getState().kembalikan(buku);
 
         if (denda > 0) {
             System.out.println("[Peminjaman] Buku dikembalikan. Denda: Rp " + denda);

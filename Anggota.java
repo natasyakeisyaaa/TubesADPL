@@ -15,6 +15,16 @@ public class Anggota extends User implements Notifikasi {
         this.tanggalLahir = tanggalLahir;
     }
 
+    public void tampilInfo() {
+        System.out.println("----------------------------------");
+        System.out.println("ID            : " + id);
+        System.out.println("Nama          : " + nama);
+        System.out.println("Tanggal lahir : " + tanggalLahir);
+        System.out.println("No telpon     : " + noTelp);
+        System.out.println("Alamat        : " + alamat);
+        System.out.println("----------------------------------");
+    }
+
     public void bukuTersedia() {
         LinkedList<Buku> daftarBukuSedia = this.pinjamBuku.getBuku();
 
