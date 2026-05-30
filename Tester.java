@@ -5,53 +5,67 @@ import java.util.Scanner;
 public class Tester {
 
     public static void main(String[] args) {
-        PerpustakaanFacade perpus = new PerpustakaanFacade();
-
         Scanner sc = new Scanner(System.in);
+        Perpustakaan perpus = Perpustakaan.getInstance();
 
-        System.out.println("Halo, selamat datang di Perpustakaan!");
-        System.out.println("Pilih peran Anda (ketik 1 / 2)");
-        System.out.println("1. Anggota");
-        System.out.println("2. Pengurus");
+        String status = "";
 
-        int role = sc.nextInt();
+        while (!status.equals("Finish")) {
+            //untuk pilih role
+            System.out.println("Halo, selamat datang di Perpustakaan!");
+            System.out.println("Pilih peran Anda (ketik 1 / 2)");
+            System.out.println("1. Anggota");
+            System.out.println("2. Pengurus");
 
-        if (role == 1) {
-            System.out.println("Apakah anda sudah mendaftar sebelumnya? (ketik 1 / 2)");
-            System.out.println("1. Sudah");
-            System.out.println("2. Belum");
+            int role = sc.nextInt();
 
-            int keanggotaan = sc.nextInt();
+            //kalau role anggota
+            if (role == 1) {
+                System.out.println("Apakah anda sudah mendaftar sebelumnya? (ketik 1 / 2)");
+                System.out.println("1. Sudah");
+                System.out.println("2. Belum");
 
-            if (keanggotaan == 2) {
-                System.out.println("Masukkan beberapa data berikut :");
-                System.out.print("Nama : ");
-                String nama = sc.next();
-                System.out.print("Tanggal lahir (hhmmyyyy) : ");
-                String tanggalLahir = sc.next();
-                System.out.print("No telpon : ");
-                String noTelp = sc.next();
-                System.out.print("Alamat : ");
-                String alamat = sc.next();
-                System.out.println();
-                Anggota baru = new Anggota(nama, tanggalLahir, noTelp, alamat);
-            }
+                int keanggotaan = sc.nextInt();
+                Anggota userAnggota = null;
 
-            System.out.println("Apa yang anda ingin lakukan di Perpustakaan? (ketik 1 / 2)");
-            System.out.println("1. Meminjam Buku");
-            System.out.println("2. Mengembalikkan Buku");
+                if (keanggotaan == 1) {
+                    System.out.print("Masukkan id penduduk anda :");
+                    String id = sc.next();
+                    userAnggota = perpus.cariAnggota(id);
+                }
 
-            int kegiatan = sc.nextInt();
+                if (userAnggota == null) {
+                    System.out.println("Masukkan beberapa data berikut :");
+                    System.out.println("Id Penduduk : ");
+                    String id = sc.next();
+                    System.out.print("Nama : ");
+                    String nama = sc.next();
+                    System.out.print("Tanggal lahir (hhmmyyyy) : ");
+                    String tanggalLahir = sc.next();
+                    System.out.print("No telpon : ");
+                    String noTelp = sc.next();
+                    System.out.print("Alamat : ");
+                    String alamat = sc.next();
+                    System.out.println();
 
-            if (kegiatan == 1) {
-                System.out.print("Ketik judul buku yang ingin dipinjam :");
-                String judul = sc.next();
+                    userAnggota = perpus.daftarAnggota(id, nama, tanggalLahir, noTelp, alamat);
+                }
 
-            } else if (kegiatan == 2) {
-                System.out.println("Ketik judul buku ");
+                System.out.println("Apa yang anda ingin lakukan di Perpustakaan? (ketik 1 / 2 / 3)");
+                System.out.println("1. Meminjam Buku");
+                System.out.println("2. Mengembalikkan Buku");
+                System.out.println("3. Mencari buku yang ada di Perpustakaan");
+
+                int kegiatan = sc.nextInt();
+
+                //kalau ingin meminjam buku
+                if (kegiatan == 1) {
+                    System.out.println("Masukan nama buku yang ingin dipinjam :");
+                    perpus.pinjamBuku(userAnggota, s);
+                }
+
             }
         }
     }
 
-    public static Buku cari
 }
